@@ -1,9 +1,75 @@
 import type { NextPage } from "next";
+import React, { Key, useState } from "react";
+
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import axios from "axios";
+import absoluteUrl from "next-absolute-url";
 
-const Home: NextPage = () => {
+import StickyNote from "../components/StickyNote";
+import AddModal from "../components/AddModal";
+import EditModal from "../components/EditModal";
+interface stickyNoteProps {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: Date;
+  published: boolean;
+  updatedAt: Date;
+}
+
+interface postNote {
+  title: string;
+  content: string;
+}
+
+interface homeProps {
+  results: stickyNoteProps[];
+}
+const Home: NextPage = ({ results }: homeProps) => {
+  {
+    console.log(results);
+  }
+
+  const [showAddModal, setAddModalVisibility] = useState(false);
+  const [showUpdateModal, setUpdateModalVisibility] = useState(false);
+  const [selectEditedNote, setSelectEditedNote] = useState({});
+
+  const handleAddNote = async ({ title, content }: postNote) => {
+    try {
+      const { data } = await axios.post(`/api/notes`, { title, content });
+      setAddModalVisibility(!showAddModal);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEditNote = async ({ title, content }: postNote) => {
+    try {
+      const { data } = await axios.put(`/api/notes/${selectEditedNote.id}`, {
+        title,
+        content,
+      });
+      setUpdateModalVisibility(!showUpdateModal);
+      setSelectEditedNote({});
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSelectEditedNote = (selectNote: React.SetStateAction<{}>) => {
+    console.log(selectNote);
+    setSelectEditedNote(selectNote);
+    setUpdateModalVisibility(!showUpdateModal);
+  };
+  const handleDeleteNote = async (id: string) => {
+    try {
+      await axios.delete(`/api/notes/${id}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -13,24 +79,39 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <div>
-          <h1 className="text-3xl font-bold underline">Geloo</h1>
+        {showAddModal && <AddModal onHandleAddNote={handleAddNote} />}
+        {showUpdateModal && (
+          <EditModal
+            onHandleEditNote={handleEditNote}
+            selectEditedNote={selectEditedNote}
+            showUpdateModal={showUpdateModal}
+            setUpdateModalVisibility={setUpdateModalVisibility}
+          />
+        )}
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {results?.map((notes: stickyNoteProps, index: Key | null | undefined) => (
+            <StickyNote
+              key={index}
+              data={notes}
+              onSelectEditedNote={handleSelectEditedNote}
+              onDeleteNote={handleDeleteNote}
+            />
+          ))}
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer">
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 };
+
+export async function getServerSideProps({ req }) {
+  const { origin } = absoluteUrl(req);
+  const apiURL = `${origin}/api/notes`;
+  const { data } = await axios.get(apiURL);
+  return {
+    props: {
+      results: data.data.notes,
+    },
+  };
+}
 
 export default Home;
