@@ -4,24 +4,19 @@ const AddModal = ({
   onHandleEditNote,
   selectEditedNote,
   showUpdateModal,
+  setSelectEditedNote,
   setUpdateModalVisibility,
 }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState(selectEditedNote.title);
+  const [content, setContent] = useState(selectEditedNote.content);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onHandleEditNote({ title, content });
+    setUpdateModalVisibility(!showUpdateModal);
     setTitle("");
     setContent("");
   };
-
-  useEffect(() => {
-    if (selectEditedNote) {
-      setTitle(selectEditedNote.title);
-      setContent(selectEditedNote.content);
-    }
-  });
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -39,7 +34,7 @@ const AddModal = ({
             </div>
             {/*body*/}
             <div className="relative p-6 flex-auto">
-              <form onSubmit={(e) => handleSubmit(e)}>
+              <form>
                 <div className="mb-4">
                   <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                     Title
@@ -71,6 +66,7 @@ const AddModal = ({
                 </div>
                 <div className="flex items-center justify-between">
                   <button
+                    onClick={(e) => handleSubmit(e)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     type="submit">
                     Add Button

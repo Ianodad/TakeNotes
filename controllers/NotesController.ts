@@ -24,8 +24,7 @@ const postNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiRespon
 });
 
 const deleteNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
-  const id = req.query.id;
-  console.log(id);
+  const { id } = req.query;
   await prisma.note.delete({
     where: {
       id,
@@ -35,6 +34,22 @@ const deleteNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResp
   res.status(200).json({
     status: "success",
     data: null,
+  });
+});
+
+const getNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+  const note = await prisma.note.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      note,
+    },
   });
 });
 
@@ -51,6 +66,12 @@ const updateNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResp
       content,
     },
   });
+  res.status(200).json({
+    status: "success",
+    data: {
+      status: "success",
+    },
+  });
 });
 
-export { getAllNotes, postNote, deleteNote, updateNote };
+export { getAllNotes, postNote, deleteNote, updateNote, getNote };

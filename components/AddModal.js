@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const AddModal = ({ onHandleAddNote }) => {
+const AddModal = ({ onHandleAddNote, showAddModal, setAddModalVisibility }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -9,6 +9,7 @@ const AddModal = ({ onHandleAddNote }) => {
     onHandleAddNote({ title, content });
     setTitle("");
     setContent("");
+    setAddModalVisibility(!showAddModal);
   };
   return (
     <>
@@ -21,10 +22,8 @@ const AddModal = ({ onHandleAddNote }) => {
               <h3 className="text-3xl font-semibold">Add Note</h3>
               <button
                 className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                onClick={() => setShowModal(false)}>
-                <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                  ×
-                </span>
+                onClick={() => setAddModalVisibility(!showAddModal)}>
+                Close
               </button>
             </div>
             {/*body*/}
