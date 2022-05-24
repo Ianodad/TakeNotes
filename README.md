@@ -26,6 +26,11 @@ Run application
 npm run dev
 ```
 
+Create database table using prisma ORM
+```bash
+npx prisma db push  
+```
+
 create an .env file add the local or cloud base URI
 ```bash
 DATABASE_URL=""
