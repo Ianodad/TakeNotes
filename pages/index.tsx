@@ -31,7 +31,7 @@ interface homeProps {
 const Home: NextPage = ({ results }: homeProps) => {
   const [showAddModal, setAddModalVisibility] = useState(false);
   const [showUpdateModal, setUpdateModalVisibility] = useState(false);
-  const [selectEditedNote, setSelectEditedNote] = useState({});
+  const [selectEditedNote, setSelectEditedNote] = useState<stickyNoteProps>();
   const router = useRouter();
 
   const handleAddNote = async ({ title, content }: postNote) => {
@@ -50,17 +50,16 @@ const Home: NextPage = ({ results }: homeProps) => {
         content,
       });
       if (data) {
-        console.log("dwd");
         router.reload();
       }
       setUpdateModalVisibility(!showUpdateModal);
-      setSelectEditedNote({});
+      setSelectEditedNote(undefined);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleSelectEditedNote = (selectNote: React.SetStateAction<{}>) => {
+  const handleSelectEditedNote = (selectNote: stickyNoteProps) => {
     setSelectEditedNote(selectNote);
     setUpdateModalVisibility(!showUpdateModal);
   };
