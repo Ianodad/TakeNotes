@@ -2,6 +2,14 @@ import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../lib/prisma";
 
+interface stickyNoteProps {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: Date;
+  published: boolean;
+  updatedAt: Date;
+}
 const getAllNotes = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
   const notes = await prisma.note.findMany();
   res.status(200).json({
@@ -27,7 +35,7 @@ const deleteNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResp
   const { id } = req.query;
   await prisma.note.delete({
     where: {
-      id,
+      id: Number(id),
     },
   });
 
@@ -41,7 +49,7 @@ const getNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiRespons
   const { id } = req.query;
   const note = await prisma.note.findUnique({
     where: {
-      id,
+      id: Number(id),
     },
   });
 
