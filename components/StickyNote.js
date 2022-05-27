@@ -12,7 +12,7 @@ const StickyNote = ({ data, onSelectEditedNote, onDeleteNote }) => {
             <h4 className="text-gray-900 font-bold mb-3">{title}</h4>
           </div>
           <div onClick={() => onDeleteNote(id)} className="float-right">
-            <DeleteIcon />
+            <DeleteIcon className="w-8 h-8 hover:scale-125" />
           </div>
         </div>
         <p className="text-gray-800 text-sm">{content}</p>
@@ -21,11 +21,11 @@ const StickyNote = ({ data, onSelectEditedNote, onDeleteNote }) => {
         <div className="flex items-center justify-between text-gray-800">
           <p className="text-sm">{new Date(createdAt).toDateString()}</p>
           <button
-            className="w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 ring-offset-pink-300   focus:ring-black"
+            className="w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 ring-offset-pink-300   focus:ring-black hover:scale-125"
             aria-label="edit note"
             onClick={() => onSelectEditedNote(data)}
             role="button">
-            <EditIcon className="icon icon-tabler icon-tabler-pencil" />
+            <EditIcon className="icon icon-tabler icon-tabler-pencil hover:scale-125" />
           </button>
         </div>
       </div>

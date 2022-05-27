@@ -43,9 +43,13 @@ const Home: NextPage = ({ results }: homeProps) => {
       ...notes,
       { id: "", title, content, createdAt: new Date(), updatedAt: new Date(), published: false },
     ];
+    setNotes(addNotes);
     try {
-      setNotes(addNotes);
       const { data } = await axios.post(`/api/notes`, { title, content });
+      if (data.success) {
+        const newNotes = [...notes, data.note];
+        setNotes(newNotes);
+      }
       // router.reload();
     } catch (error) {
       console.error(error);
@@ -112,8 +116,8 @@ const Home: NextPage = ({ results }: homeProps) => {
             setUpdateModalVisibility={setUpdateModalVisibility}
           />
         )}
-        <div onClick={() => setAddModalVisibility(!showAddModal)}>
-          <AddIcon className="w-70" />
+        <div className="mb-5" onClick={() => setAddModalVisibility(!showAddModal)}>
+          <AddIcon className="w-16 hover:scale-125" />
         </div>
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
           {notes?.map((notes: stickyNoteProps, index: Key | null | undefined) => (
