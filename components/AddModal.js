@@ -3,10 +3,11 @@ import React, { useState } from "react";
 const AddModal = ({ onHandleAddNote, showAddModal, setAddModalVisibility }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [color, setColor] = useState("#F9A8D4");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onHandleAddNote({ title, content });
+    onHandleAddNote({ title, content, color });
     setTitle("");
     setContent("");
     setAddModalVisibility(!showAddModal);
@@ -30,7 +31,7 @@ const AddModal = ({ onHandleAddNote, showAddModal, setAddModalVisibility }) => {
             <div className="relative p-6 flex-auto">
               <form onSubmit={(e) => handleSubmit(e)}>
                 <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
                     Title
                   </label>
                   <input
@@ -45,16 +46,31 @@ const AddModal = ({ onHandleAddNote, showAddModal, setAddModalVisibility }) => {
                   />
                 </div>
                 <div className="mb-6">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                  <label className="block text-gray-700 text-sm font-bold mb-2" >
                     Content
                   </label>
-                  <input
-                    className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  <textarea
+                    className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="content"
                     type="text"
+                    rows="4"
                     value={content}
                     name="content"
                     onChange={(e) => setContent(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-6">
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Pick Note Color
+                  </label>
+                  <input
+                    className="w-12 shadow appearance-none border  rounded w-full  text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id="color"
+                    type="color"
+                    value={color}
+                    name="content"
+                    onChange={(e) => setColor(e.target.value)}
                     required
                   />
                 </div>
@@ -62,7 +78,7 @@ const AddModal = ({ onHandleAddNote, showAddModal, setAddModalVisibility }) => {
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     type="submit">
-                    Add Button
+                    Submit
                   </button>
                 </div>
               </form>

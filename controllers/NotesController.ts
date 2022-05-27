@@ -13,12 +13,13 @@ const getAllNotes = catchAsyncErrors(async (req: NextApiRequest, res: NextApiRes
 });
 
 const postNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { title, content, author, authorId } = req.body;
+  const { title, content, color } = req.body;
 
   const note = await prisma.note.create({
     data: {
       title,
       content,
+      color,
     },
   });
   res.status(200).json({
@@ -59,7 +60,7 @@ const getNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiRespons
 
 const updateNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
-  const { title, content, author, authorId } = req.body;
+  const { title, content, color } = req.body;
 
   await prisma.note.update({
     where: {
@@ -68,6 +69,7 @@ const updateNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResp
     data: {
       title,
       content,
+      color,
     },
   });
   res.status(200).json({

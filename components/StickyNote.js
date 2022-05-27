@@ -3,10 +3,12 @@ import { EditIcon } from "../icons/EditIcon";
 import { DeleteIcon } from "../icons/DeleteIcon";
 
 const StickyNote = ({ data, onSelectEditedNote, onDeleteNote }) => {
-  const { id, title, content, createdAt } = data;
+  const { id, title, content, color, createdAt } = data;
   return (
-    <div className="w-54 h-64 flex flex-col justify-between bg-pink-300 rounded-lg border border-pink-300 mb-6 py-5 px-4 rotate-1 shadow-md">
-      <div clasName="">
+    <div
+      className={`w-54 h-64 flex flex-col justify-between  rounded-lg border  mb-6 py-5 px-4 -rotate-1 shadow-md`}
+      style={{ backgroundColor: color }}>
+      <div className="">
         <div className="flex">
           <div className="w-32">
             <h4 className="text-gray-900 font-bold mb-3">{title}</h4>

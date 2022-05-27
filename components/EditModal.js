@@ -9,10 +9,11 @@ const AddModal = ({
 }) => {
   const [title, setTitle] = useState(selectEditedNote.title);
   const [content, setContent] = useState(selectEditedNote.content);
+  const [color, setColor] = useState(selectEditedNote.color || "#F9A8D4");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onHandleEditNote({ title, content });
+    onHandleEditNote({ title, content, color });
     setUpdateModalVisibility(!showUpdateModal);
     setTitle("");
     setContent("");
@@ -55,7 +56,7 @@ const AddModal = ({
                     Content
                   </label>
                   <input
-                    className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="content"
                     type="text"
                     value={content}
@@ -64,12 +65,26 @@ const AddModal = ({
                     required
                   />
                 </div>
+                <div className="mb-6">
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Pick Note Color
+                  </label>
+                  <input
+                    className="w-12 shadow appearance-none border  rounded w-full  text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id="color"
+                    type="color"
+                    value={color}
+                    name="content"
+                    onChange={(e) => setColor(e.target.value)}
+                    required
+                  />
+                </div>
                 <div className="flex items-center justify-between">
                   <button
                     onClick={(e) => handleSubmit(e)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     type="submit">
-                    Add Button
+                    Submit
                   </button>
                 </div>
               </form>
