@@ -8,11 +8,22 @@ This is NextJs fullstack app build around the MVC architecture. The combination 
 
 ## Project Status
 
-## Key Feautures
+## Features
 
 - [x] Create Note
 - [x] Updated Note
 - [x] Delete Note
+
+## Core Dependencies
+
+```
+1. NextJs
+2. Prisma
+3. Typescript
+4. Next-connect
+5. Axios
+6. Eslint
+```
 
 ## Installation and Setup Instructions
 
@@ -31,7 +42,7 @@ npm run dev
 create an .env file add the local or cloud base URI
 
 ```bash
-DATABASE_URL="mysql://root@127.0.0.1:3309/YOUR-DB-NAME-HERE"
+DATABASE_URL="mysql://root@127.0.0.1:PORT/YOUR-DB-NAME-HERE"
 ```
 
 ## Using Prisma

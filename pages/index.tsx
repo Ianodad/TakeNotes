@@ -11,6 +11,8 @@ import { useRouter } from "next/router";
 import StickyNote from "../components/StickyNote";
 import AddModal from "../components/AddModal";
 import EditModal from "../components/EditModal";
+
+import { AddIcon } from "../icons/AddIcon";
 interface stickyNoteProps {
   id: string;
   title: string;
@@ -29,15 +31,22 @@ interface homeProps {
   results: stickyNoteProps[];
 }
 const Home: NextPage = ({ results }: homeProps) => {
+  const [notes, setNotes] = useState(results);
   const [showAddModal, setAddModalVisibility] = useState(false);
   const [showUpdateModal, setUpdateModalVisibility] = useState(false);
   const [selectEditedNote, setSelectEditedNote] = useState<stickyNoteProps>();
   const router = useRouter();
 
   const handleAddNote = async ({ title, content }: postNote) => {
+    // add Note optimistically to ui
+    const addNotes = [
+      ...notes,
+      { id: "", title, content, createdAt: new Date(), updatedAt: new Date(), published: false },
+    ];
     try {
-      router.reload();
+      setNotes(addNotes);
       const { data } = await axios.post(`/api/notes`, { title, content });
+      // router.reload();
     } catch (error) {
       console.error(error);
     }
@@ -65,6 +74,9 @@ const Home: NextPage = ({ results }: homeProps) => {
   };
 
   const handleDeleteNote = async (id: string) => {
+    //delete note base on id
+    const removeItem = notes.filter((note) => note.id !== id);
+    setNotes(removeItem);
     try {
       await axios.delete(`/api/notes/${id}`);
       router.reload();
@@ -101,24 +113,10 @@ const Home: NextPage = ({ results }: homeProps) => {
           />
         )}
         <div onClick={() => setAddModalVisibility(!showAddModal)}>
-          <svg
-            width="75"
-            height="75"
-            viewBox="0 0 75 75"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M37.5 5.35714C55.1786 5.35714 69.6429 19.8214 69.6429 37.5C69.6429 55.1786 55.1786 69.6429 37.5 69.6429C19.8214 69.6429 5.35714 55.1786 5.35714 37.5C5.35714 19.8214 19.8214 5.35714 37.5 5.35714ZM37.5 0C16.875 0 0 16.875 0 37.5C0 58.125 16.875 75 37.5 75C58.125 75 75 58.125 75 37.5C75 16.875 58.125 0 37.5 0Z"
-              fill="#AEAEAE"
-            />
-            <path
-              d="M59 34.8125H40.1875V16H34.8125V34.8125H16V40.1875H34.8125V59H40.1875V40.1875H59V34.8125Z"
-              fill="#AEAEAE"
-            />
-          </svg>
+          <AddIcon className="w-70" />
         </div>
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
-          {results?.map((notes: stickyNoteProps, index: Key | null | undefined) => (
+          {notes?.map((notes: stickyNoteProps, index: Key | null | undefined) => (
             <StickyNote
               key={index}
               data={notes}
