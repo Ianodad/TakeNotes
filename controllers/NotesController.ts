@@ -4,6 +4,7 @@ import prisma from "../lib/prisma";
 
 const getAllNotes = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
   const notes = await prisma.note.findMany();
+
   res.status(200).json({
     status: "success",
     data: {
@@ -13,8 +14,7 @@ const getAllNotes = catchAsyncErrors(async (req: NextApiRequest, res: NextApiRes
 });
 
 const postNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { title, content, color }: { title: string, content: string, color: string } = req.body;
-
+  const { title, content, color } = req.body;
   const note = await prisma.note.create({
     data: {
       title,
@@ -62,7 +62,7 @@ const updateNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResp
   const { id } = req.query;
   const { title, content, color } = req.body;
 
-  await prisma.note.update({
+  const note = await prisma.note.update({
     where: {
       id: id.toString(),
     },
@@ -75,7 +75,7 @@ const updateNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResp
   res.status(200).json({
     status: "success",
     data: {
-      status: "success",
+      note,
     },
   });
 });
