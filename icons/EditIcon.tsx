@@ -1,8 +1,11 @@
-export const EditIcon = (className: string) => {
+import React from "react";
+import { iconProps } from "../constants/models";
+
+export const EditIcon = ({ className }: iconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={ className}
+      className={className}
       width="20"
       height="20"
       viewBox="0 0 24 24"

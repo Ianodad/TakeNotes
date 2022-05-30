@@ -1,4 +1,7 @@
-export const DeleteIcon = ({ className }) => {
+import React from "react";
+import { iconProps } from "../constants/models";
+
+export const DeleteIcon = ({ className }: iconProps) => {
   return (
     <svg className={className} viewBox="0 0 26 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

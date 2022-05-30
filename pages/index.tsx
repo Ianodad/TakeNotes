@@ -1,5 +1,6 @@
-import type { NextPage } from "next";
-import React, { Key, useState, useEffect } from "react";
+import type { NextPage, GetServerSideProps } from "next";
+
+import React, { Key, useState, useEffect, useId } from "react";
 
 import Head from "next/head";
 import Image from "next/image";
@@ -13,24 +14,18 @@ import AddModal from "../components/AddModal";
 import EditModal from "../components/EditModal";
 
 import { AddIcon } from "../icons/AddIcon";
-interface noteProps {
-  id?: string;
-  title?: string;
-  content?: string;
-  color?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+import { noteProps } from "../constants/models";
 
 interface homeProps {
   results: noteProps[];
 }
-const Home: NextPage = ({ results }: homeProps) => {
+const Home: NextPage<homeProps> = ({ results }) => {
   const [notes, setNotes] = useState(results);
-  const [showAddModal, setAddModalVisibility] = useState(false);
-  const [showUpdateModal, setUpdateModalVisibility] = useState(false);
+  const [showAddModal, setAddModalVisibility] = useState<boolean>(false);
+  const [showUpdateModal, setUpdateModalVisibility] = useState<boolean>(false);
   const [selectEditedNote, setSelectEditedNote] = useState<noteProps>();
   const router = useRouter();
+  const tempPostId = useId();
 
   const handleAddNote = async ({ title, content, color }: noteProps) => {
     // add Note optimistically to ui
@@ -40,7 +35,7 @@ const Home: NextPage = ({ results }: homeProps) => {
       const addNotes = [
         ...notes,
         {
-          id: Date.now().toString(),
+          id: tempPostId,
           title,
           content,
           color,
@@ -62,7 +57,7 @@ const Home: NextPage = ({ results }: homeProps) => {
     let oldNotesState = notes;
     try {
       const editNotes = notes.map((note) => {
-        if (note.id === selectEditedNote.id) {
+        if (note.id === selectEditedNote?.id) {
           return {
             ...note,
             title,
@@ -74,7 +69,7 @@ const Home: NextPage = ({ results }: homeProps) => {
         return note;
       });
       setNotes(editNotes);
-      const { data } = await axios.put(`/api/notes/${selectEditedNote.id}`, {
+      const { data } = await axios.put(`/api/notes/${selectEditedNote?.id}`, {
         title,
         content,
         color,
@@ -138,10 +133,10 @@ const Home: NextPage = ({ results }: homeProps) => {
           <AddIcon className="w-16 hover:scale-125 hover:duration-700 ease-in-out duration-700 ease-out-in" />
         </div>
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
-          {notes?.map((notes: noteProps, index: Key | null | undefined) => (
+          {notes?.map((note: noteProps, index: Key | null | undefined) => (
             <StickyNote
               key={index}
-              data={notes}
+              data={note}
               onSelectEditedNote={handleSelectEditedNote}
               onDeleteNote={handleDeleteNote}
             />
@@ -152,7 +147,7 @@ const Home: NextPage = ({ results }: homeProps) => {
   );
 };
 
-export async function getServerSideProps({ req }) {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { origin } = absoluteUrl(req);
   const apiURL = `${origin}/api/notes`;
   const { data } = await axios.get(apiURL);
@@ -161,6 +156,6 @@ export async function getServerSideProps({ req }) {
       results: data.data.notes,
     },
   };
-}
+};
 
 export default Home;

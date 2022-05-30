@@ -1,7 +1,9 @@
+// import the catchError middleware
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../lib/prisma";
+import prisma from "../lib/prisma"; // prisma client 
 
+// route for fetching all notes
 const getAllNotes = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
   const notes = await prisma.note.findMany();
 
@@ -13,6 +15,7 @@ const getAllNotes = catchAsyncErrors(async (req: NextApiRequest, res: NextApiRes
   });
 });
 
+// route for post a note
 const postNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
   const { title, content, color } = req.body;
   const note = await prisma.note.create({
@@ -28,6 +31,7 @@ const postNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiRespon
   });
 });
 
+// route for deleting through a note id request dynamically
 const deleteNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   await prisma.note.delete({
@@ -42,6 +46,7 @@ const deleteNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResp
   });
 });
 
+// get one note from with a note id request dynamically
 const getNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const note = await prisma.note.findUnique({
@@ -58,6 +63,7 @@ const getNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiRespons
   });
 });
 
+// update a note from with a note id request dynamically
 const updateNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   const { title, content, color } = req.body;
@@ -80,4 +86,5 @@ const updateNote = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResp
   });
 });
 
+// export all routes to be used in the api/
 export { getAllNotes, postNote, deleteNote, updateNote, getNote };

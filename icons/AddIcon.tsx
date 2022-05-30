@@ -1,4 +1,7 @@
-export const AddIcon = ({ className }) => {
+import React from "react";
+import { iconProps } from "../constants/models";
+
+export const AddIcon = ({ className }: iconProps) => {
   return (
     <svg className={className} viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
