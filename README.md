@@ -2,16 +2,16 @@
 
 This is a [NextJs](https://nextjs.org/) fullstack app built around the MVC architecture. This is done by leveraging tools such as [Prisma](https://www.prisma.io/nextjs) for database modeling and Next-connect to the Api handling. To find out how to recreate this find it on [Medium](https://ianodad.medium.com/building-a-mvc-application-with-nextjs-and-prisma-a4be9276b9f2)
 
-# [LIVE WEBSITE](https://take-notes-nine.vercel.app/)
-#### Example:
+## [LIVE WEBSITE](https://take-notes-nine.vercel.app/)
+## ExampleS:
 
-Create Note
+### Create Note
 ![](https://media.giphy.com/media/cklrnTxvhXhIIzdNYL/giphy.gif)
 
-Update Note
+### Update Note
 ![](https://media.giphy.com/media/RlkvAoJOEpa8W5BFsx/giphy.gif)
 
-Delete Note
+### Delete Note
 ![](https://media.giphy.com/media/FWqX2de98go8sAh22L/giphy.gif)
 
 ## Features
