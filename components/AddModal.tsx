@@ -8,6 +8,7 @@ type Props = {
 };
 
 const AddModal = ({ onHandleAddNote, showAddModal, setAddModalVisibility }: Props) => {
+  // handle field data
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [color, setColor] = useState<string>("#F9A8D4");

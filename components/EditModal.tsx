@@ -9,7 +9,7 @@ interface editProps {
   setUpdateModalVisibility: (visibility: boolean) => void;
 }
 
-const AddModal = ({
+const EditModal = ({
   onHandleEditNote,
   selectEditedNote,
   showUpdateModal,
@@ -20,6 +20,7 @@ const AddModal = ({
   const [content, setContent] = useState<string | undefined>(selectEditedNote?.content);
   const [color, setColor] = useState<string | undefined>(selectEditedNote?.color || "#F9A8D4");
 
+  // handle event
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     onHandleEditNote({ title, content, color });
@@ -106,4 +107,4 @@ const AddModal = ({
   );
 };
 
-export default AddModal;
+export default EditModal;

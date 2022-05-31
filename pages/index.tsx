@@ -3,7 +3,6 @@ import type { NextPage, GetServerSideProps } from "next";
 import React, { Key, useState, useEffect, useId } from "react";
 
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import absoluteUrl from "next-absolute-url";
@@ -20,7 +19,7 @@ interface homeProps {
   results: noteProps[];
 }
 const Home: NextPage<homeProps> = ({ results }) => {
-  const [notes, setNotes] = useState(results);
+  const [notes, setNotes] = useState<noteProps[]>(results);
   const [showAddModal, setAddModalVisibility] = useState<boolean>(false);
   const [showUpdateModal, setUpdateModalVisibility] = useState<boolean>(false);
   const [selectEditedNote, setSelectEditedNote] = useState<noteProps>();
@@ -30,7 +29,6 @@ const Home: NextPage<homeProps> = ({ results }) => {
   const handleAddNote = async ({ title, content, color }: noteProps) => {
     // add Note optimistically to ui
     let oldNotesState = notes;
-    console.log({ title, content, color });
     try {
       const addNotes = [
         ...notes,
@@ -43,9 +41,13 @@ const Home: NextPage<homeProps> = ({ results }) => {
           updatedAt: new Date(),
         },
       ];
+      // sets the new note to state locally
       setNotes(addNotes);
+      // axios for post object of values
       const { data } = await axios.post(`/api/notes`, { title, content, color });
-      // router.reload();
+      if (data) {
+        router.reload();
+      }
     } catch (error) {
       console.error(error);
       setNotes(oldNotesState);
@@ -56,6 +58,7 @@ const Home: NextPage<homeProps> = ({ results }) => {
     // add Note optimistically to ui
     let oldNotesState = notes;
     try {
+      // manipulate the edit in the 
       const editNotes = notes.map((note) => {
         if (note.id === selectEditedNote?.id) {
           return {
@@ -68,15 +71,17 @@ const Home: NextPage<homeProps> = ({ results }) => {
         }
         return note;
       });
+      // Set edited Array to state
       setNotes(editNotes);
+      // pass note edits to a put to api endpoint 
       const { data } = await axios.put(`/api/notes/${selectEditedNote?.id}`, {
         title,
         content,
         color,
       });
-      // if (data) {
-      //   router.reload();
-      // }
+      if (data) {
+        router.reload();
+      }
       setUpdateModalVisibility(!showUpdateModal);
       setSelectEditedNote(undefined);
     } catch (error) {
@@ -91,10 +96,11 @@ const Home: NextPage<homeProps> = ({ results }) => {
   };
 
   const handleDeleteNote = async (id: string) => {
-    //delete note base on id
-    const removeItem = notes.filter((note) => note.id !== id);
-    setNotes(removeItem);
     try {
+      //delete note base on id
+      const removeItem = notes.filter((note) => note.id !== id);
+      setNotes(removeItem);
+      // set id to dynamically delete call
       await axios.delete(`/api/notes/${id}`);
       router.reload();
     } catch (error) {
@@ -146,7 +152,7 @@ const Home: NextPage<homeProps> = ({ results }) => {
     </div>
   );
 };
-
+// will make the initial call to populate the results
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { origin } = absoluteUrl(req);
   const apiURL = `${origin}/api/notes`;
