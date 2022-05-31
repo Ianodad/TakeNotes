@@ -3,15 +3,19 @@
 This is a [NextJs](https://nextjs.org/) fullstack app built around the MVC architecture. This is done by leveraging tools such as [Prisma](https://www.prisma.io/nextjs) for database modeling and Next-connect to the Api handling. To find out how to recreate this find it on [Medium](https://ianodad.medium.com/building-a-mvc-application-with-nextjs-and-prisma-a4be9276b9f2)
 
 ## [LIVE WEBSITE](https://take-notes-nine.vercel.app/)
+
 ## ExampleS:
 
 ### Create Note
+
 ![](https://media.giphy.com/media/cklrnTxvhXhIIzdNYL/giphy.gif)
 
 ### Update Note
+
 ![](https://media.giphy.com/media/RlkvAoJOEpa8W5BFsx/giphy.gif)
 
 ### Delete Note
+
 ![](https://media.giphy.com/media/FWqX2de98go8sAh22L/giphy.gif)
 
 ## Features
@@ -22,25 +26,25 @@ This is a [NextJs](https://nextjs.org/) fullstack app built around the MVC archi
 
 ## Source Materials
 
-```
 1. [NextJs](https://nextjs.org/)
 2. [Prisma](https://www.prisma.io/nextjs)
 3. [Typescript](https://www.typescriptlang.org/)
 4. [Next-connect](https://github.com/hoangvvo/next-connect)
 5. [Axios](https://axios-http.com/)
 6. [Eslint](https://eslint.org/)
-```
 
 ## Installation and Setup Instructions
 
 ```bash
 git clone https://github.com/Ianodad/TakeNotes.git
 ```
+
 create an **.env** file add the local or cloud base URI
 
 ```bash
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
 ```
+
 Install node_modules dependencies
 
 ```bash
