@@ -81,6 +81,38 @@ Allows you to interact with and manage your data interactively. For more visit [
 npm run studio
 ```
 
+## WITH DOCKER
+
+```bash
+cd takenotes
+```
+
+```bash
+docker build -t takenotes .
+```
+
+replace **db url here** with your postgress url in command below to run with docker
+
+```bash
+docker run --name takenotes -d -p 3000:3000 -e DATABASE_URL="db url here"  takenotes:latest
+```
+
+The application will run on http://localhost:3000
+### Run with Docker-compose
+
+Edit the **docker-compose.yml** replace **db url here** on **DATABASE_URL** with your local postgres url 
+
+```console
+docker-compose up --build
+```
+
+or
+
+```console
+docker-compose up -d
+```
+
+
 ## License
 
 MIT (c) 2021 [Ian Adera](https://github.com/ianodad)

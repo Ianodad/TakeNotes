@@ -1,7 +1,7 @@
 // import the catchError middleware
 import catchAsyncErrors from "../middlewares/catchAsyncErrors";
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../lib/prisma"; // prisma client 
+import prisma from "../lib/prisma"; // prisma client
 
 // route for fetching all notes
 const getAllNotes = catchAsyncErrors(async (req: NextApiRequest, res: NextApiResponse) => {
