@@ -20,7 +20,7 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         with:
-          host: ${{secrets.HOST_DNS}}
+          host: ${{secrets.HOST_IP}}
           username: ${{secrets.USERNAME}}
           key: ${{secrets.SSH_KEY}}
           envs: DATABASE_URL
