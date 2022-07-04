@@ -27,7 +27,6 @@ jobs:
 
         steps:
           - name: Deploy in EC2
-            uses: actions/checkout@v2
             env:
               SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
               REMOTE_HOST: ${{secrets.HOST_DNS}}
