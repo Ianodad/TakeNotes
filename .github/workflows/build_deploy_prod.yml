@@ -21,7 +21,7 @@ jobs:
               username: ${{secrets.USERNAME}}
               key: ${{secrets.EC2_SSH_KEY}}
               envs: DATABASE_URL
-              script:  |
+              script: |
                   cd /home/ec2-user/TakeNotes
                   git checkout main 
                   git fetch --all 
