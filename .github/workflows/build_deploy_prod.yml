@@ -6,13 +6,25 @@ on:
         branches: [main]
 
 jobs:
+    build:
+      runs-on: ubuntu-latest
+    
+      steps:
+      - uses: actions/checkout@v2
+    
+      - name: Build the docker_compose
+        run: docker-compose up -d --build
+      
+      - name: Build the application
+        run: docker-compose exec -T takenotes npm run build
+
     deploy:
         name: Deploy to EC2 on master branch push
         runs-on: ubuntu-latest
 
         steps:
         - name: Checkout the files
-          uses: actions/checkout@v2
+          uses: actions/checkout@v3
 
         - name: test-ci/cd
           uses: easingthemes/ssh-deploy@main
@@ -20,4 +32,4 @@ jobs:
           SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
           REMOTE_HOST: ${{secrets.HOST_DNS}}
           REMOTE_USER: ${{secrets.USERNAME}}
-          TARGET: ${{secrets.TARGET_DIR}}
+          # TARGET: ${{secrets.TARGET_DIR}}

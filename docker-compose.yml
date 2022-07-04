@@ -2,10 +2,10 @@ version: "3"
 
 services:
   web:
+    container_name: takenotes
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: web
     restart: always
     ports:
       - 3000:3000
