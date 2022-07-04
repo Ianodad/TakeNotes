@@ -11,15 +11,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the files
+      - name: Checkout
         uses: actions/checkout@v2
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key:${{ secrets.SSH_KEY }}
+          name: id_rsa
+          known_host: ${{ secrets.HOST_DNS }}
+      - name: rsync over ssh
+        run: |
+            ssh ec2-user@ip-172-31-30-138
+            touch hello.text
 
-      - name: Deploy to Server 1
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
           # TARGET: ${{ secrets.TARGET_DIR }}
 
                   
