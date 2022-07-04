@@ -10,21 +10,21 @@ jobs:
     name: Deploy to EC2 on master branch push
     runs-on: ubuntu-latest
 
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-          
-        - name: Deploy in EC2
-          uses: appleboy/ssh-action@master
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Deploy in EC2
+        uses: appleboy/ssh-action@master
 
-          env:
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          with:
-            host: ${{secrets.HOST_DNS}}
-            username: ${{secrets.USERNAME}}
-            key: ${{secrets.SSH_KEY}}
-            envs: DATABASE_URL
-            script: |
-              git clone https://github.com/Ianodad/TakeNotes.git
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        with:
+          host: ${{secrets.HOST_DNS}}
+          username: ${{secrets.USERNAME}}
+          key: ${{secrets.SSH_KEY}}
+          envs: DATABASE_URL
+          script: |
+            git clone https://github.com/Ianodad/TakeNotes.git
 
                   
