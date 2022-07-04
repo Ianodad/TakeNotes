@@ -22,11 +22,11 @@ jobs:
               key: ${{secrets.EC2_SSH_KEY}}
               envs: DATABASE_URL
               script:  |
+              `
                   cd /home/ec2-user/TakeNotes &&
                   git checkout main &&
                   git fetch --all &&
                   git reset --hard origin/main &&
                   git pull origin main &&
-                  docker build -t takenotes .
-                  docker run --name takenotes -d -p 3000:3000 -e DATABASE_URL="${DATABASE_URL}" takenotes:latest
-                '
+                  docker build -t takenotes . &&
+                  docker run --name takenotes -d -p 3000:3000 -e DATABASE_URL="${DATABASE_URL}" takenotes:latest`
