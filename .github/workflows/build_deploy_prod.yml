@@ -17,7 +17,7 @@ jobs:
       
       - name: Run docker commands
         run: docker run --name takenotes -d -p 3000:3000 -e DATABASE_URL=${{ secrets.DATABASE_URL }} takenotes:latest
-        
+
       - name: Build the application
         run: docker-compose exec -T takenotes npm run build
 
@@ -28,20 +28,21 @@ jobs:
         steps:
         - name: Checkout the files
           uses: actions/checkout@v3
-        env:
-          SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
-          REMOTE_HOST: ${{secrets.HOST_DNS}}
-          REMOTE_USER: ${{secrets.USERNAME}}
-          # TARGET: ${{secrets.TARGET_DIR}}
-        run:  |
-          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${ REMOTE_USER}@${REMOTE_HOST} '
-          
-            #Now we have got the access of EC2 and we will start the deploy .
-            cd /home/ubuntu/CounterApp &&
-            git checkout master &&
-            git fetch --all &&
-            git reset --hard origin/master &&
-            git pull origin master &&
-            docker-compose -f docker-compose.prod.yml up -d --build 
-          '
+          env:
+            SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
+            REMOTE_HOST: ${{secrets.HOST_DNS}}
+            REMOTE_USER: ${{secrets.USERNAME}}
+            # TARGET: ${{secrets.TARGET_DIR}}
+            
+          run:  |
+            echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+            ssh -o StrictHostKeyChecking=no -i private_key ${ REMOTE_USER}@${REMOTE_HOST} '
+            
+              #Now we have got the access of EC2 and we will start the deploy .
+              cd /home/ubuntu/CounterApp &&
+              git checkout master &&
+              git fetch --all &&
+              git reset --hard origin/master &&
+              git pull origin master &&
+              docker-compose -f docker-compose.prod.yml up -d --build 
+            '
