@@ -25,6 +25,6 @@ jobs:
           key: ${{secrets.SSH_KEY}}
           envs: DATABASE_URL
           script: |
-            echo "${hot}"
+            echo "${HOST_DNS}"
 
                   
