@@ -22,7 +22,7 @@ jobs:
       - name: rsync over ssh
         run: |
             ssh ec2-user@ip-172-31-30-138
-            touch hello.text
+            touch hello.txt
 
           # TARGET: ${{ secrets.TARGET_DIR }}
 
