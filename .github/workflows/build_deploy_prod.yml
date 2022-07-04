@@ -26,23 +26,23 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-        - name: Deploy in EC2
-        - uses: actions/checkout@v3
-          env:
-            SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
-            REMOTE_HOST: ${{secrets.HOST_DNS}}
-            REMOTE_USER: ${{secrets.USERNAME}}
-            # TARGET: ${{secrets.TARGET_DIR}}
+          - name: Deploy in EC2
+          - uses: actions/checkout@v3
+            env:
+              SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
+              REMOTE_HOST: ${{secrets.HOST_DNS}}
+              REMOTE_USER: ${{secrets.USERNAME}}
+              # TARGET: ${{secrets.TARGET_DIR}}
 
-          run:  |
-            echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
-            ssh -o StrictHostKeyChecking=no -i private_key ${ REMOTE_USER}@${REMOTE_HOST} '
-            
-              #Now we have got the access of EC2 and we will start the deploy .
-              cd /home/ubuntu/TakeNotes &&
-              git checkout main &&
-              git fetch --all &&
-              git reset --hard origin/main &&
-              git pull origin main &&
-              docker-compose -f docker-compose.yml up -d --build 
-            '
+            run:  |
+              echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+              ssh -o StrictHostKeyChecking=no -i private_key ${ REMOTE_USER}@${REMOTE_HOST} '
+              
+                #Now we have got the access of EC2 and we will start the deploy .
+                cd /home/ubuntu/TakeNotes &&
+                git checkout main &&
+                git fetch --all &&
+                git reset --hard origin/main &&
+                git pull origin main &&
+                docker-compose -f docker-compose.yml up -d --build 
+              '
