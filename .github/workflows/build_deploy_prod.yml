@@ -19,7 +19,7 @@ jobs:
             with:
               host: ${{secrets.HOST_DNS}}
               username: ${{secrets.USERNAME}}
-              key: ${{secrets.EC2_SSH_KEY}}
+              key: ${{secrets.SSH_KEY}}
               envs: DATABASE_URL
               script: |
                 git clone https://github.com/Ianodad/TakeNotes.git
