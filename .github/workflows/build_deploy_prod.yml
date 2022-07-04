@@ -6,42 +6,27 @@ on:
         branches: [main]
 
 jobs:
-    build:
-      runs-on: ubuntu-latest
-    
-      steps:
-      - uses: actions/checkout@v2
-    
-      - name: Build the docker_compose
-        run: docker build -t takenotes .
-      
-      - name: Run docker commands
-        run: docker run --name takenotes -d -p 3000:3000 -e DATABASE_URL=${{ secrets.DATABASE_URL }} takenotes:latest
-
-      - name: Build the application
-        run: docker-compose exec -T takenotes npm run build
-
     deploy:
         name: Deploy to EC2 on master branch push
         runs-on: ubuntu-latest
 
         steps:
           - name: Deploy in EC2
-            env:
-              SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
-              REMOTE_HOST: ${{secrets.HOST_DNS}}
-              REMOTE_USER: ${{secrets.USERNAME}}
-              # TARGET: ${{secrets.TARGET_DIR}}
+            uses: appleboy/ssh-action@master
 
-            run:  |
-              echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
-              ssh -o StrictHostKeyChecking=no -i private_key ${ REMOTE_USER}@${REMOTE_HOST} '
-              
-                #Now we have got the access of EC2 and we will start the deploy .
-                cd /home/ubuntu/TakeNotes &&
-                git checkout main &&
-                git fetch --all &&
-                git reset --hard origin/main &&
-                git pull origin main &&
-                docker-compose -f docker-compose.yml up -d --build 
-              '
+            env:
+              DATABASE_URL: ${{ secrets.DATABASE_URL }}
+            with:
+              host: ${{secrets.HOST_DNS}}
+              username: ${{secrets.USERNAME}}
+              key: ${{secrets.EC2_SSH_KEY}}
+              envs: DATABASE_URL
+              script:  |
+                  cd /home/ec2-user/TakeNotes &&
+                  git checkout main &&
+                  git fetch --all &&
+                  git reset --hard origin/main &&
+                  git pull origin main &&
+                  docker build -t takenotes .
+                  docker run --name takenotes -d -p 3000:3000 -e DATABASE_URL="${DATABASE_URL}" takenotes:latest
+                '
