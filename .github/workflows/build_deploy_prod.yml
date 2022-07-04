@@ -6,22 +6,20 @@ on:
         branches: [main]
 
 jobs:
-    deploy:
-        name: Deploy to EC2 on master branch push
-        runs-on: ubuntu-latest
+  deploy:
+    name: Deploy to EC2 on master branch push
+    runs-on: ubuntu-latest
 
-        steps:
-          - name: Deploy in EC2
-            uses: appleboy/ssh-action@master
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
 
-            env:
-              DATABASE_URL: ${{ secrets.DATABASE_URL }}
-            with:
-              host: ${{secrets.HOST_DNS}}
-              username: ${{secrets.USERNAME}}
-              key: ${{secrets.SSH_KEY}}
-              envs: DATABASE_URL
-              script: |
-                git clone https://github.com/Ianodad/TakeNotes.git
+      - name: Deploy to Server 1
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.TARGET_DIR }}
 
                   
