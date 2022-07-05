@@ -29,7 +29,7 @@ jobs:
             git checkout main
             git fetch -all
             git pull origin main
-            docker build -t take-notes:latest .
+            docker build -t takenotes:latest .
             docker run --name takenotes -d -p 3000:3000 -e DATABASE_URL="${DATABASE_URL}" takenotes:latest
 
 
