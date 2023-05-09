@@ -59,7 +59,7 @@ const Home: NextPage<homeProps> = ({ results }) => {
     let oldNotesState = notes;
     try {
       // manipulate the edit in the 
-      const editNotes = notes.map((note) => {
+      const editNotes = notes.map((note: { id: any; }) => {
         if (note.id === selectEditedNote?.id) {
           return {
             ...note,
@@ -98,7 +98,7 @@ const Home: NextPage<homeProps> = ({ results }) => {
   const handleDeleteNote = async (id: string) => {
     try {
       //delete note base on id
-      const removeItem = notes.filter((note) => note.id !== id);
+      const removeItem = notes.filter((note: { id: string; }) => note.id !== id);
       setNotes(removeItem);
       // set id to dynamically delete call
       await axios.delete(`/api/notes/${id}`);
