@@ -113,7 +113,7 @@ const Home: NextPage<homeProps> = ({ results }) => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Take Notes</title>
+        {/* <title>Take Notes</title> */}
         <meta name="description" content="This is all about takings note" />
         <link rel="icon" href="/site_logo.ico" />
       </Head>
