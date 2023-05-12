@@ -23,6 +23,8 @@ const AddModal = ({ onHandleAddNote, showAddModal, setAddModalVisibility }: Prop
     setContent("");
     setAddModalVisibility(!showAddModal);
   };
+
+  
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
