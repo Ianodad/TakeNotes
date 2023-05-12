@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import { noteProps } from "../constants/models";
 
 type Props = {
@@ -6,6 +7,7 @@ type Props = {
   showAddModal: boolean;
   setAddModalVisibility: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
 
 const AddModal = ({ onHandleAddNote, showAddModal, setAddModalVisibility }: Props) => {
   // handle field data
