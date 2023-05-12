@@ -132,7 +132,7 @@ const Home: NextPage<homeProps> = ({ results }) => {
             setSelectEditedNote={setSelectEditedNote}
             selectEditedNote={selectEditedNote}
             showUpdateModal={showUpdateModal}
-            setUpdateModalVisibility={setUpdateModalVisibility}
+            setUpdateModalVisibility={setUpdateModalVisibility} 
           />
         )}
         <div className="mb-5" onClick={() => setAddModalVisibility(!showAddModal)}>
@@ -155,6 +155,8 @@ const Home: NextPage<homeProps> = ({ results }) => {
 // will make the initial call to populate the results
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { origin } = absoluteUrl(req);
+
+  
   const apiURL = `${origin}/api/notes`;
   const { data } = await axios.get(apiURL);
   return {
