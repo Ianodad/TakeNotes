@@ -108,6 +108,9 @@ const Home: NextPage<homeProps> = ({ results }) => {
     }
   };
 
+
+  
+
   useEffect(() => console.log(results), [results]);
 
   return (
